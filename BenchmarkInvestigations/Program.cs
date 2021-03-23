@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using BenchmarkInvestigations;
 
-BenchmarkRunner.Run<DynamicInvocations>();
+BenchmarkRunner.Run<ListsAndCapacity>();
