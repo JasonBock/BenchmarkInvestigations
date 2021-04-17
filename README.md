@@ -8,6 +8,10 @@ Following are brief descriptions of each set of tests.
 
 This is a test to see what happens when a null check is added for a parameter to a method.
 
+## `ConstructionViaTuples`
+
+This is a test to see if there's any difference in assigining property values via "traditional" setting and tuples.
+
 ## `DynamicInvocations`
 
 This is a test to see how much cost is involved in using `dynamic` to call a method.
@@ -20,6 +24,6 @@ This is a test to see the cost in using `dynamic` for property usage.
 
 This is a test to see what happens when the capacity is set when a `List<>` is created.
 
-## `OverflowingIntegers`
+## `RunOverflowingCode`
 
 This is a test to see what `checked` does to performance.

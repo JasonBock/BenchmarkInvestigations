@@ -1,6 +1,87 @@
 # Results
 
-Following is the test suite name and the results from that test.
+Following is the test suite name and the results from that test, in alphabetical order. 
+
+## `ArgumentNullCheckOverload`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|               Method |     Mean |     Error |    StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|--------------------- |---------:|----------:|----------:|------:|--------:|-------:|------:|------:|----------:|
+|      PassToNullCheck | 6.686 ns | 0.1909 ns | 0.2548 ns |  1.00 |    0.00 | 0.0057 |     - |     - |      24 B |
+| PassWithoutNullCheck | 5.521 ns | 0.1167 ns | 0.1034 ns |  0.81 |    0.03 | 0.0057 |     - |     - |      24 B |
+```
+
+Conclusion - There is a slight bit of overhead if you don't make a null check, but I'd always make the check.
+
+## `ConstructionViaTuples`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|           Method |     Mean |    Error |   StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|----------------- |---------:|---------:|---------:|------:|--------:|-------:|------:|------:|----------:|
+| CreateViaSetters | 63.33 ns | 1.333 ns | 1.779 ns |  1.02 |    0.02 | 0.0114 |     - |     - |      48 B |
+|   CreateViaTuple | 61.59 ns | 1.085 ns | 0.962 ns |  1.00 |    0.00 | 0.0114 |     - |     - |      48 B |
+```
+
+Conclusion - There's no difference. Use whatever style you like.
+
+## `DynamicInvocations`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                   Method |       Mean |     Error |    StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------- |-----------:|----------:|----------:|------:|--------:|-------:|------:|------:|----------:|
+| ReturnValueViaDirectCall |  0.0333 ns | 0.0222 ns | 0.0208 ns |     ? |       ? |      - |     - |     - |         - |
+|    ReturnValueViaDynamic | 11.9144 ns | 0.2307 ns | 0.2564 ns |     ? |       ? | 0.0115 |     - |     - |      48 B |
+
+// * Warnings *
+BaselineCustomAnalyzer
+  Summary -> A question mark '?' symbol indicates that it was not possible to compute the (Ratio, RatioSD) column(s) because the baseline value is too close to zero.
+```
+
+Conclusion - Don't use `dynamic` unless absolutely necessary.
+
+## `DynamicPropertyUsage
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|      Method |       Mean |     Error |    StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------ |-----------:|----------:|----------:|------:|--------:|-------:|------:|------:|----------:|
+| CallDynamic | 14.0606 ns | 0.1445 ns | 0.1281 ns |     ? |       ? | 0.0115 |     - |     - |      48 B |
+|  CallDirect |  0.0143 ns | 0.0144 ns | 0.0135 ns |     ? |       ? |      - |     - |     - |         - |
+
+// * Warnings *
+BaselineCustomAnalyzer
+  Summary -> A question mark '?' symbol indicates that it was not possible to compute the (Ratio, RatioSD) column(s) because the baseline value is too close to zero.
+ZeroMeasurement
+  DynamicPropertyUsage.CallDirect: Default -> The method duration is indistinguishable from the empty method duration
+```
+Conclusion - Don't use `dynamic` unless absolutely necessary.
 
 ## `ListsAndCapacity`
 ```
@@ -49,3 +130,33 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 |          CreateWithCapacity |  5000 | 11,287.50 ns | 211.479 ns | 217.173 ns |  1.00 |    0.00 |  4.7760 |      - |     - |   20056 B |
 ```
 Conclusion - If you know what the capacity is, use that when the list is constructed. Even a decent guess is better than nothing.
+
+## `RunOverflowingCode`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                Method |     i |     j |      Mean |     Error |    StdDev |    Median | Ratio | RatioSD | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------------------- |------ |------ |----------:|----------:|----------:|----------:|------:|--------:|------:|------:|------:|----------:|
+| MultiplyWithNoChecked |     3 |     7 | 0.0145 ns | 0.0148 ns | 0.0152 ns | 0.0158 ns |     ? |       ? |     - |     - |     - |         - |
+|   MultiplyWithChecked |     3 |     7 | 0.2668 ns | 0.0314 ns | 0.0385 ns | 0.2707 ns |     ? |       ? |     - |     - |     - |         - |
+|                       |       |       |           |           |           |           |       |         |       |       |       |           |
+| MultiplyWithNoChecked |    12 |    44 | 0.0000 ns | 0.0000 ns | 0.0000 ns | 0.0000 ns |     ? |       ? |     - |     - |     - |         - |
+|   MultiplyWithChecked |    12 |    44 | 0.0000 ns | 0.0000 ns | 0.0000 ns | 0.0000 ns |     ? |       ? |     - |     - |     - |         - |
+|                       |       |       |           |           |           |           |       |         |       |       |       |           |
+| MultiplyWithNoChecked |   243 | 48319 | 0.0044 ns | 0.0099 ns | 0.0083 ns | 0.0000 ns |     ? |       ? |     - |     - |     - |         - |
+|   MultiplyWithChecked |   243 | 48319 | 0.0227 ns | 0.0212 ns | 0.0208 ns | 0.0213 ns |     ? |       ? |     - |     - |     - |         - |
+|                       |       |       |           |           |           |           |       |         |       |       |       |           |
+| MultiplyWithNoChecked |  4315 |  9199 | 0.0145 ns | 0.0145 ns | 0.0234 ns | 0.0000 ns |     ? |       ? |     - |     - |     - |         - |
+|   MultiplyWithChecked |  4315 |  9199 | 0.2705 ns | 0.0229 ns | 0.0215 ns | 0.2739 ns |     ? |       ? |     - |     - |     - |         - |
+|                       |       |       |           |           |           |           |       |         |       |       |       |           |
+| MultiplyWithNoChecked | 10000 | 10000 | 0.0000 ns | 0.0000 ns | 0.0000 ns | 0.0000 ns |     ? |       ? |     - |     - |     - |         - |
+|   MultiplyWithChecked | 10000 | 10000 | 0.2656 ns | 0.0155 ns | 0.0137 ns | 0.2633 ns |     ? |       ? |     - |     - |     - |         - |
+```
+
+Conclusion - Putting `checked` in your code may be slower, but it's so fast it probably won't matter.

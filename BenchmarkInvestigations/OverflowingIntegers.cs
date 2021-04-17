@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace BenchmarkInvestigations
 {
+	[MemoryDiagnoser]
 	public class RunOverflowingCode
 	{
 		public IEnumerable<object[]> Values()

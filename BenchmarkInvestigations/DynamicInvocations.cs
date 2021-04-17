@@ -2,6 +2,7 @@
 
 namespace BenchmarkInvestigations
 {
+	[MemoryDiagnoser]
 	public class DynamicInvocations
 	{
 		[Benchmark(Baseline = true)]
