@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BenchmarkInvestigations
+namespace BenchmarkInvestigations.SupportingTypes
 {
 	public interface IPerson
 	{

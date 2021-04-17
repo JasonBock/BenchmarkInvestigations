@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using BenchmarkInvestigations;
 
-BenchmarkRunner.Run<RunOverflowingCode>();
+BenchmarkRunner.Run<SummationApproaches>();

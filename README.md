@@ -8,6 +8,10 @@ Following are brief descriptions of each set of tests.
 
 This is a test to see what happens when a null check is added for a parameter to a method.
 
+## `AttributeLookup`
+
+This is a test to compare looking up a method by either a well-known name or by the existence of an attribute.
+
 ## `ConstructionViaTuples`
 
 This is a test to see if there's any difference in assigining property values via "traditional" setting and tuples.
@@ -20,10 +24,22 @@ This is a test to see how much cost is involved in using `dynamic` to call a met
 
 This is a test to see the cost in using `dynamic` for property usage.
 
+## `FibonacciApproaches`
+
+This is a test to see the differences in calculating the n-th number in the Fibonacci sequence.
+
 ## `ListsAndCapacity`
 
 This is a test to see what happens when the capacity is set when a `List<>` is created.
 
+## `QueryStrategies`
+
+This tests different ways to order conditional statements.
+
 ## `RunOverflowingCode`
 
 This is a test to see what `checked` does to performance.
+
+## `SummationApproaches`
+
+This tests different ways to get the sum of all the elements in a list.

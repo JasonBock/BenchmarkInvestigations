@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkInvestigations.SupportingTypes;
 using System;
 
 namespace BenchmarkInvestigations

@@ -20,6 +20,34 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - There is a slight bit of overhead if you don't make a null check, but I'd always make the check.
 
+## `AttributeLookup`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                                       Method |        Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|--------------------------------------------- |------------:|----------:|----------:|-------:|------:|------:|----------:|
+|           FindMethodCountWith5UsingIsDefined |  2,693.9 ns |  62.34 ns | 180.87 ns | 0.1068 |     - |     - |     448 B |
+|  FindMethodCountWith5UsingGetCustomAttribute |  6,886.4 ns |  86.23 ns |  80.66 ns | 0.2518 |     - |     - |    1064 B |
+|       FindMethodCountWith5UsingWellKnownName |    292.1 ns |   5.30 ns |   7.93 ns | 0.0610 |     - |     - |     256 B |
+|          FindMethodCountWith10UsingIsDefined |  3,627.6 ns |  55.71 ns |  49.39 ns | 0.1259 |     - |     - |     528 B |
+| FindMethodCountWith10UsingGetCustomAttribute | 10,247.8 ns | 203.05 ns | 189.93 ns | 0.3510 |     - |     - |    1504 B |
+|      FindMethodCountWith10UsingWellKnownName |    418.8 ns |   7.96 ns |   8.52 ns | 0.0801 |     - |     - |     336 B |
+|          FindMethodCountWith20UsingIsDefined |  5,067.4 ns |  52.91 ns |  44.18 ns | 0.1602 |     - |     - |     688 B |
+| FindMethodCountWith20UsingGetCustomAttribute | 18,150.3 ns | 355.99 ns | 499.04 ns | 0.5493 |     - |     - |    2384 B |
+|      FindMethodCountWith20UsingWellKnownName |    649.1 ns |  12.37 ns |  24.99 ns | 0.1183 |     - |     - |     496 B |
+|          FindMethodCountWith50UsingIsDefined |  9,971.9 ns |  93.95 ns |  78.45 ns | 0.2747 |     - |     - |    1168 B |
+| FindMethodCountWith50UsingGetCustomAttribute | 36,255.5 ns | 717.40 ns | 635.96 ns | 1.1597 |     - |     - |    5025 B |
+|      FindMethodCountWith50UsingWellKnownName |  1,303.5 ns |  19.12 ns |  17.89 ns | 0.2327 |     - |     - |     976 B |
+```
+
+Conclusion - It is quicker and uses less memory to look up a method if it uses a well-known name. However, the advantage an attribute has is that it provides a bit of naming flexibility.
+
 ## `ConstructionViaTuples`
 
 ```
@@ -83,6 +111,45 @@ ZeroMeasurement
 ```
 Conclusion - Don't use `dynamic` unless absolutely necessary.
 
+## `FibonacciApproaches`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                  Method | start |                Mean |             Error |            StdDev |              Median |        Ratio |    RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------ |------ |--------------------:|------------------:|------------------:|--------------------:|-------------:|-----------:|-------:|------:|------:|----------:|
+|      CalculateUsingList |     1 |            15.02 ns |          0.330 ns |          0.709 ns |            14.83 ns |         0.85 |       0.09 |      - |     - |     - |         - |
+| CalculateUsingRecursive |     1 |            14.59 ns |          0.853 ns |          2.503 ns |            13.92 ns |         0.93 |       0.16 |      - |     - |     - |         - |
+|    CalculateUsingLocals |     1 |            15.91 ns |          0.901 ns |          2.656 ns |            16.28 ns |         1.00 |       0.00 |      - |     - |     - |         - |
+|                         |       |                     |                   |                   |                     |              |            |        |       |       |           |
+|      CalculateUsingList |     3 |           151.50 ns |          2.997 ns |          3.077 ns |           151.71 ns |         2.27 |       0.07 | 0.0286 |     - |     - |     120 B |
+| CalculateUsingRecursive |     3 |           179.19 ns |          3.604 ns |          9.619 ns |           178.41 ns |         2.69 |       0.07 |      - |     - |     - |         - |
+|    CalculateUsingLocals |     3 |            66.88 ns |          1.370 ns |          1.282 ns |            66.33 ns |         1.00 |       0.00 |      - |     - |     - |         - |
+|                         |       |                     |                   |                   |                     |              |            |        |       |       |           |
+|      CalculateUsingList |     6 |           265.61 ns |          5.341 ns |          5.714 ns |           264.41 ns |         2.32 |       0.12 | 0.0648 |     - |     - |     272 B |
+| CalculateUsingRecursive |     6 |         1,040.99 ns |         20.008 ns |         53.406 ns |         1,041.41 ns |         9.29 |       0.72 |      - |     - |     - |         - |
+|    CalculateUsingLocals |     6 |           112.25 ns |          2.280 ns |          5.965 ns |           111.23 ns |         1.00 |       0.00 |      - |     - |     - |         - |
+|                         |       |                     |                   |                   |                     |              |            |        |       |       |           |
+|      CalculateUsingList |    12 |           299.66 ns |          9.566 ns |         26.823 ns |           291.30 ns |         1.59 |       0.15 | 0.1316 |     - |     - |     552 B |
+| CalculateUsingRecursive |    12 |        16,789.03 ns |      1,535.818 ns |      4,528.395 ns |        18,447.64 ns |        69.88 |      18.99 |      - |     - |     - |         - |
+|    CalculateUsingLocals |    12 |           196.09 ns |          3.961 ns |          8.000 ns |           196.23 ns |         1.00 |       0.00 |      - |     - |     - |         - |
+|                         |       |                     |                   |                   |                     |              |            |        |       |       |           |
+|      CalculateUsingList |    20 |           755.32 ns |         14.963 ns |         25.811 ns |           752.26 ns |         2.35 |       0.12 | 0.2594 |     - |     - |    1088 B |
+| CalculateUsingRecursive |    20 |       892,330.81 ns |     17,606.757 ns |     28,928.407 ns |       891,717.09 ns |     2,780.91 |     144.58 |      - |     - |     - |         - |
+|    CalculateUsingLocals |    20 |           323.16 ns |          6.394 ns |         12.472 ns |           324.18 ns |         1.00 |       0.00 |      - |     - |     - |         - |
+|                         |       |                     |                   |                   |                     |              |            |        |       |       |           |
+|      CalculateUsingList |    35 |         1,237.94 ns |         24.769 ns |         37.074 ns |         1,237.85 ns |         2.39 |       0.06 | 0.5093 |     - |     - |    2136 B |
+| CalculateUsingRecursive |    35 | 1,262,866,745.45 ns | 24,879,472.607 ns | 39,461,480.038 ns | 1,259,147,000.00 ns | 2,433,558.20 | 112,587.12 |      - |     - |     - |      88 B |
+|    CalculateUsingLocals |    35 |           524.35 ns |         10.404 ns |          9.223 ns |           526.07 ns |         1.00 |       0.00 |      - |     - |     - |         - |
+```
+
+Conclusion - Using local variables is the quickest and allocates the least amount of memory.
+
 ## `ListsAndCapacity`
 ```
 BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
@@ -131,6 +198,26 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 ```
 Conclusion - If you know what the capacity is, use that when the list is constructed. Even a decent guess is better than nothing.
 
+## `QueryStrategies`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                                                     Method |      Mean |     Error |    StdDev | Ratio | RatioSD |    Gen 0 |    Gen 1 |    Gen 2 | Allocated |
+|----------------------------------------------------------- |----------:|----------:|----------:|------:|--------:|---------:|---------:|---------:|----------:|
+|                     GetValuesWithForEachAndTwoIfStatements |  9.525 ms | 0.1885 ms | 0.2316 ms |  1.42 |    0.08 | 265.6250 | 234.3750 | 234.3750 |     16 MB |
+|                      GetValuesWithForEachAndOneIfStatement | 10.270 ms | 0.2050 ms | 0.2013 ms |  1.54 |    0.08 | 281.2500 | 250.0000 | 250.0000 |     16 MB |
+| GetValuesWithForEachAndOneIfStatementWithBooleanCheckFirst |  9.854 ms | 0.1637 ms | 0.1367 ms |  1.47 |    0.08 | 281.2500 | 250.0000 | 250.0000 |     16 MB |
+|     GetValuesWithForAndOneIfStatementWithBooleanCheckFirst |  6.694 ms | 0.1323 ms | 0.2905 ms |  1.00 |    0.00 | 234.3750 | 203.1250 | 203.1250 |     16 MB |
+```
+
+Conclusion - Not much. I'm not sure why I even wrote this test in the first place. I guess `GetValuesWithForAndOneIfStatementWithBooleanCheckFirst()` is the "best" way to do ... whatever it is this query is supposed to do :P.
+
 ## `RunOverflowingCode`
 
 ```
@@ -160,3 +247,42 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 ```
 
 Conclusion - Putting `checked` in your code may be slower, but it's so fast it probably won't matter.
+
+## `SummationApproaches`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                   Method |        holder |         Mean |        Error |       StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------- |-------------- |-------------:|-------------:|-------------:|------:|--------:|-------:|------:|------:|----------:|
+| AddUpUsingCountExtension |    Count = 50 |    281.01 ns |     5.277 ns |     5.183 ns |  7.00 |    0.19 |      - |     - |     - |         - |
+|       AddUpUsingProperty |    Count = 50 |     40.20 ns |     0.794 ns |     0.742 ns |  1.00 |    0.00 |      - |     - |     - |         - |
+|            AddUpUsingSum |    Count = 50 |    372.95 ns |     6.569 ns |    10.032 ns |  9.30 |    0.37 | 0.0095 |     - |     - |      40 B |
+|                          |               |              |              |              |       |         |        |       |       |           |
+| AddUpUsingCountExtension |   Count = 100 |    755.92 ns |    15.209 ns |    27.035 ns |  8.42 |    0.49 |      - |     - |     - |         - |
+|       AddUpUsingProperty |   Count = 100 |     90.45 ns |     1.842 ns |     3.679 ns |  1.00 |    0.00 |      - |     - |     - |         - |
+|            AddUpUsingSum |   Count = 100 |    699.76 ns |    12.633 ns |    15.514 ns |  7.81 |    0.37 | 0.0095 |     - |     - |      40 B |
+|                          |               |              |              |              |       |         |        |       |       |           |
+| AddUpUsingCountExtension |   Count = 500 |  3,905.81 ns |   102.903 ns |   288.551 ns |  8.43 |    1.31 |      - |     - |     - |         - |
+|       AddUpUsingProperty |   Count = 500 |    425.10 ns |     7.456 ns |     6.610 ns |  1.00 |    0.00 |      - |     - |     - |         - |
+|            AddUpUsingSum |   Count = 500 |  4,615.15 ns |    50.327 ns |    47.076 ns | 10.87 |    0.24 | 0.0076 |     - |     - |      40 B |
+|                          |               |              |              |              |       |         |        |       |       |           |
+| AddUpUsingCountExtension |  Count = 1000 |  5,426.87 ns |    97.996 ns |   149.650 ns |  9.19 |    0.42 |      - |     - |     - |         - |
+|       AddUpUsingProperty |  Count = 1000 |    591.79 ns |    11.467 ns |    13.651 ns |  1.00 |    0.00 |      - |     - |     - |         - |
+|            AddUpUsingSum |  Count = 1000 |  6,325.12 ns |    96.580 ns |    99.180 ns | 10.64 |    0.25 | 0.0076 |     - |     - |      40 B |
+|                          |               |              |              |              |       |         |        |       |       |           |
+| AddUpUsingCountExtension |  Count = 5000 | 39,817.34 ns |   792.298 ns |   912.411 ns |  9.64 |    0.38 |      - |     - |     - |         - |
+|       AddUpUsingProperty |  Count = 5000 |  4,129.38 ns |    81.423 ns |   108.697 ns |  1.00 |    0.00 |      - |     - |     - |         - |
+|            AddUpUsingSum |  Count = 5000 | 44,835.02 ns |   860.023 ns | 1,087.654 ns | 10.87 |    0.39 |      - |     - |     - |      40 B |
+|                          |               |              |              |              |       |         |        |       |       |           |
+| AddUpUsingCountExtension | Count = 10000 | 53,232.41 ns |   829.423 ns |   775.843 ns |  8.74 |    0.29 |      - |     - |     - |         - |
+|       AddUpUsingProperty | Count = 10000 |  6,075.35 ns |   119.751 ns |   155.710 ns |  1.00 |    0.00 |      - |     - |     - |         - |
+|            AddUpUsingSum | Count = 10000 | 65,168.32 ns | 1,290.457 ns | 1,677.959 ns | 10.73 |    0.41 |      - |     - |     - |      40 B |
+```
+
+Conclusion - Don't use `Sum()` in high-perf scenarios. Just do a `for` loop and manually add up the values, and use `.Count`, **not** the `Count()` extension method.
