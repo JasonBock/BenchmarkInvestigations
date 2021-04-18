@@ -48,6 +48,45 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - It is quicker and uses less memory to look up a method if it uses a well-known name. However, the advantage an attribute has is that it provides a bit of naming flexibility.
 
+## `ComparingCases`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                   Method |       Level |       Mean |     Error |    StdDev |     Median | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|------------------------- |------------ |-----------:|----------:|----------:|-----------:|------:|------:|------:|----------:|
+| IsEnabledUsingDictionary |       Trace | 15.8581 ns | 0.8394 ns | 2.4751 ns | 15.7820 ns |     - |     - |     - |         - |
+|     IsEnabledUsingSwitch |       Trace |  1.1732 ns | 0.1449 ns | 0.4134 ns |  1.0983 ns |     - |     - |     - |         - |
+|         IsEnabledUsingIf |       Trace |  1.2271 ns | 0.1718 ns | 0.4789 ns |  1.2076 ns |     - |     - |     - |         - |
+
+| IsEnabledUsingDictionary |       Debug |  8.6573 ns | 0.9249 ns | 2.7272 ns |  7.0957 ns |     - |     - |     - |         - |
+|     IsEnabledUsingSwitch |       Debug |  1.4021 ns | 0.0528 ns | 0.0494 ns |  1.3995 ns |     - |     - |     - |         - |
+|         IsEnabledUsingIf |       Debug |  0.6967 ns | 0.0432 ns | 0.0404 ns |  0.6932 ns |     - |     - |     - |         - |
+
+| IsEnabledUsingDictionary |     Warning |  7.8176 ns | 0.1822 ns | 0.1789 ns |  7.8634 ns |     - |     - |     - |         - |
+|     IsEnabledUsingSwitch |     Warning |  1.0544 ns | 0.0552 ns | 0.0658 ns |  1.0510 ns |     - |     - |     - |         - |
+|         IsEnabledUsingIf |     Warning |  1.2853 ns | 0.0587 ns | 0.0653 ns |  1.2762 ns |     - |     - |     - |         - |
+
+| IsEnabledUsingDictionary |       Error |  7.3820 ns | 0.1811 ns | 0.2156 ns |  7.4259 ns |     - |     - |     - |         - |
+|     IsEnabledUsingSwitch |       Error |  1.1043 ns | 0.0590 ns | 0.0788 ns |  1.1135 ns |     - |     - |     - |         - |
+|         IsEnabledUsingIf |       Error |  1.8791 ns | 0.0734 ns | 0.1099 ns |  1.8452 ns |     - |     - |     - |         - |
+
+| IsEnabledUsingDictionary | Information |  7.1012 ns | 0.1646 ns | 0.1540 ns |  7.1020 ns |     - |     - |     - |         - |
+|     IsEnabledUsingSwitch | Information |  1.3130 ns | 0.0564 ns | 0.0471 ns |  1.3277 ns |     - |     - |     - |         - |
+|         IsEnabledUsingIf | Information |  1.7361 ns | 0.0576 ns | 0.0481 ns |  1.7303 ns |     - |     - |     - |         - |
+
+| IsEnabledUsingDictionary |    Critical |  7.8286 ns | 0.1889 ns | 0.3594 ns |  7.8190 ns |     - |     - |     - |         - |
+|     IsEnabledUsingSwitch |    Critical |  0.9075 ns | 0.0517 ns | 0.0933 ns |  0.8937 ns |     - |     - |     - |         - |
+|         IsEnabledUsingIf |    Critical |  1.7687 ns | 0.0621 ns | 0.0519 ns |  1.7533 ns |     - |     - |     - |         - |
+```
+
+Conclusion - Don't use a `Dictionary<,>` to mimic a `switch` or `if`.
+
 ## `ConstructionViaTuples`
 
 ```
