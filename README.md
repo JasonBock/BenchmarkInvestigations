@@ -44,6 +44,10 @@ This tests different ways to order conditional statements.
 
 This is a test to see what `checked` does to performance.
 
+## `StringOperations`
+
+This looks to see if calling `Contains()` before `Replace()` helps.
+
 ## `SummationApproaches`
 
 This tests different ways to get the sum of all the elements in a list.

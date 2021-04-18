@@ -270,6 +270,41 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - Putting `checked` in your code may be slower, but it's so fast it probably won't matter.
 
+## `StringOperations`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                        Method |  DataSize |           Mean |         Error |         StdDev |         Median |    Gen 0 |    Gen 1 |    Gen 2 |   Allocated |
+|------------------------------ |---------- |---------------:|--------------:|---------------:|---------------:|---------:|---------:|---------:|------------:|
+|              ReplaceWithMatch |    100000 |     127.229 us |     2.1016 us |      1.9658 us |     126.970 us |  62.2559 |  62.2559 |  62.2559 |    197642 B |
+|            ReplaceWithNoMatch |    100000 |      73.501 us |     1.3959 us |      2.2141 us |      72.743 us |        - |        - |        - |           - |
+|   ContainsAndReplaceWithMatch |    100000 |     124.462 us |     2.4757 us |      2.6490 us |     123.088 us |  62.2559 |  62.2559 |  62.2559 |    197642 B |
+| ContainsAndReplaceWithNoMatch |    100000 |       5.428 us |     0.0821 us |      0.0685 us |       5.413 us |        - |        - |        - |           - |
+
+|              ReplaceWithMatch |   1000000 |   1,713.108 us |    33.9153 us |     40.3738 us |   1,716.266 us | 281.2500 | 281.2500 | 281.2500 |   1976827 B |
+|            ReplaceWithNoMatch |   1000000 |     726.649 us |    14.0113 us |     14.9920 us |     721.296 us |        - |        - |        - |           - |
+|   ContainsAndReplaceWithMatch |   1000000 |   1,742.666 us |    33.3783 us |     31.2221 us |   1,751.157 us | 281.2500 | 281.2500 | 281.2500 |   1976827 B |
+| ContainsAndReplaceWithNoMatch |   1000000 |      54.506 us |     0.8572 us |      0.7158 us |      54.440 us |        - |        - |        - |           - |
+
+|              ReplaceWithMatch |  10000000 |  17,688.318 us |   542.8703 us |  1,600.6654 us |  18,410.989 us | 125.0000 | 125.0000 | 125.0000 |  19765884 B |
+|            ReplaceWithNoMatch |  10000000 |   7,396.635 us |   147.4766 us |    137.9497 us |   7,361.126 us |        - |        - |        - |           - |
+|   ContainsAndReplaceWithMatch |  10000000 |  19,438.944 us | 1,069.8380 us |  2,982.2806 us |  19,078.938 us | 125.0000 | 125.0000 | 125.0000 |  19765884 B |
+| ContainsAndReplaceWithNoMatch |  10000000 |   1,755.135 us |    38.8317 us |    114.4962 us |   1,707.325 us |        - |        - |        - |           - |
+
+|              ReplaceWithMatch | 100000000 | 268,758.871 us | 5,759.9171 us | 16,892.8399 us | 265,907.150 us |        - |        - |        - | 206045656 B |
+|            ReplaceWithNoMatch | 100000000 |  71,066.351 us | 1,389.0588 us |  1,756.7146 us |  70,890.186 us |        - |        - |        - |           - |
+|   ContainsAndReplaceWithMatch | 100000000 | 186,730.890 us | 3,434.1530 us |  5,033.7369 us | 185,002.233 us |        - |        - |        - | 206045624 B |
+| ContainsAndReplaceWithNoMatch | 100000000 |  12,901.955 us |    69.0338 us |     64.5743 us |  12,893.541 us |        - |        - |        - |           - |
+```
+
+Conclusion - Calling `Contains()` before you call `Replace()` is ambiguous if it's faster or not.
+
 ## `SummationApproaches`
 
 ```
