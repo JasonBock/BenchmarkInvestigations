@@ -328,6 +328,24 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - Putting `checked` in your code may be slower, but it's so fast it probably won't matter.
 
+## `ServiceControllerTests`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|        Method |       Mean |    Error |    StdDev |     Median | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------- |-----------:|---------:|----------:|-----------:|------:|--------:|-------:|------:|------:|----------:|
+|       GetData | 3,154.7 ns | 57.07 ns | 112.65 ns | 3,128.2 ns | 10.81 |    1.27 | 0.1602 |     - |     - |     671 B |
+| BetterGetData |   227.3 ns | 23.59 ns |  69.57 ns |   186.0 ns |  1.00 |    0.00 | 0.0572 |     - |     - |     240 B |
+```
+
+Conclusion - Just use `Guid.TryParse()`. The code I found, I quickly removed.
+
 ## `StringOperations`
 
 ```

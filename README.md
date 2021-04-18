@@ -52,6 +52,10 @@ This tests different ways to order conditional statements.
 
 This is a test to see what `checked` does to performance.
 
+## `ServiceControllerTests`
+
+This tested "interesting" `Guid` parsing code I found at a client. The service and controller layers are mimicked in the test.
+
 ## `StringOperations`
 
 This looks to see if calling `Contains()` before `Replace()` helps.
