@@ -12,6 +12,10 @@ This is a test to see what happens when a null check is added for a parameter to
 
 This is a test to compare looking up a method by either a well-known name or by the existence of an attribute.
 
+## `ComparingCases`
+
+This looks at using a `Dictionary<,>` over a `switch` or `if`.
+
 ## `ConstructionViaTuples`
 
 This is a test to see if there's any difference in assigining property values via "traditional" setting and tuples.
@@ -27,6 +31,10 @@ This is a test to see the cost in using `dynamic` for property usage.
 ## `FibonacciApproaches`
 
 This is a test to see the differences in calculating the n-th number in the Fibonacci sequence.
+
+## `IteratingAnonymousAndTupleTypes`
+
+This is a test to compare using anonymous and tuple types.
 
 ## `ListsAndCapacity`
 

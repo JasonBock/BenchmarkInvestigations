@@ -189,7 +189,26 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - Using local variables is the quickest and allocates the least amount of memory.
 
+## `IteratingAnonymousAndTupleTypes`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                    Method |     Mean |   Error |   StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------------------- |---------:|--------:|---------:|------:|--------:|-------:|------:|------:|----------:|
+| IterateOverAnonymousTypes | 432.8 ns | 8.65 ns | 16.25 ns |  1.07 |    0.04 | 0.2942 |     - |     - |    1.2 KB |
+|     IterateOverTupleTypes | 410.3 ns | 7.66 ns |  9.96 ns |  1.00 |    0.00 | 0.2770 |     - |     - |   1.13 KB |
+```
+
+Conclusion - Tuple types might be **slightly** better. I need to do more investigations in this area.
+
 ## `ListsAndCapacity`
+
 ```
 BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
 Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
