@@ -32,6 +32,10 @@ This is a test to see the differences in calculating the n-th number in the Fibo
 
 This is a test to see what happens when the capacity is set when a `List<>` is created.
 
+## `NegatingNumbers`
+
+This is a test to compare ways to negate a number. (If one wonders why I did this, I faintly remember running into the string parsing technique at a client I was working at, and I was trying to show that **maybe** there was a faster way to do it, along with handling negative numbers correctly.)
+
 ## `QueryStrategies`
 
 This tests different ways to order conditional statements.

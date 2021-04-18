@@ -198,6 +198,28 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 ```
 Conclusion - If you know what the capacity is, use that when the list is constructed. Even a decent guess is better than nothing.
 
+## `NegatingNumbers`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.300-preview.21180.15
+  [Host]     : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+
+
+|                Method | value |       Mean |     Error |    StdDev |     Median |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------------------- |------ |-----------:|----------:|----------:|-----------:|-------:|------:|------:|----------:|
+|    NegateWithNegation | -1500 |  0.0285 ns | 0.0277 ns | 0.0296 ns |  0.0173 ns |      - |     - |     - |         - |
+| NegateWithNegativeOne | -1500 |  0.0863 ns | 0.0361 ns | 0.0572 ns |  0.0822 ns |      - |     - |     - |         - |
+|      NegateWithString | -1500 | 69.2971 ns | 1.4136 ns | 2.1587 ns | 69.1029 ns | 0.0153 |     - |     - |      64 B |
+|    NegateWithNegation |  1500 |  0.0000 ns | 0.0000 ns | 0.0000 ns |  0.0000 ns |      - |     - |     - |         - |
+| NegateWithNegativeOne |  1500 |  0.0000 ns | 0.0000 ns | 0.0000 ns |  0.0000 ns |      - |     - |     - |         - |
+|      NegateWithString |  1500 | 63.3428 ns | 1.2574 ns | 2.0304 ns | 63.7585 ns | 0.0153 |     - |     - |      64 B |
+```
+
+Conclusion - Just...don't parse strings to negate numbers when you already have the value as an `int`.
+
 ## `QueryStrategies`
 
 ```
