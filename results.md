@@ -189,6 +189,24 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - Using local variables is the quickest and allocates the least amount of memory.
 
+## `FormattingGuids`
+
+```
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19043
+Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=6.0.100-rc.1.21463.6
+  [Host]     : .NET Core 5.0.10 (CoreCLR 5.0.1021.41214, CoreFX 5.0.1021.41214), X64 RyuJIT
+  DefaultJob : .NET Core 5.0.10 (CoreCLR 5.0.1021.41214, CoreFX 5.0.1021.41214), X64 RyuJIT
+
+
+|                Method |      Mean |    Error |   StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|---------------------- |----------:|---------:|---------:|------:|--------:|-------:|------:|------:|----------:|
+| CreateViaFormatString |  41.93 ns | 0.880 ns | 0.823 ns |  1.00 |    0.00 | 0.0210 |     - |     - |      88 B |
+|      CreateViaReplace | 124.83 ns | 2.223 ns | 1.970 ns |  2.98 |    0.07 | 0.0439 |     - |     - |     184 B |
+```
+
+Conclusion - Use what's built-in to .NET.
+
 ## `IteratingAnonymousAndTupleTypes`
 
 ```
