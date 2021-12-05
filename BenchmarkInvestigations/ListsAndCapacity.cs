@@ -1,63 +1,62 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace BenchmarkInvestigations
+namespace BenchmarkInvestigations;
+
+[MemoryDiagnoser]
+public class ListsAndCapacity
 {
-   [MemoryDiagnoser]
-	public class ListsAndCapacity
+	[Params(5, 10, 50, 100, 500, 1000, 5000)]
+	public int Count;
+
+	[Benchmark]
+	public int CreateWithoutCapacity()
 	{
-		[Params(5, 10, 50, 100, 500, 1000, 5000)]
-		public int Count;
+		var items = new List<int>();
 
-		[Benchmark]
-		public int CreateWithoutCapacity()
+		for (var i = 0; i < this.Count; i++)
 		{
-			var items = new List<int>();
-
-			for (var i = 0; i < this.Count; i++)
-			{
-				items.Add(i);
-			}
-
-			return items.Count;
+			items.Add(i);
 		}
 
-		[Benchmark]
-		public int CreateWith25PercentCapacity()
+		return items.Count;
+	}
+
+	[Benchmark]
+	public int CreateWith25PercentCapacity()
+	{
+		var items = new List<int>(this.Count / 4);
+
+		for (var i = 0; i < this.Count; i++)
 		{
-			var items = new List<int>(this.Count / 4);
-
-			for (var i = 0; i < this.Count; i++)
-			{
-				items.Add(i);
-			}
-
-			return items.Count;
+			items.Add(i);
 		}
 
-		[Benchmark]
-		public int CreateWith50PercentCapacity()
+		return items.Count;
+	}
+
+	[Benchmark]
+	public int CreateWith50PercentCapacity()
+	{
+		var items = new List<int>(this.Count / 2);
+
+		for (var i = 0; i < this.Count; i++)
 		{
-			var items = new List<int>(this.Count / 2);
-
-			for (var i = 0; i < this.Count; i++)
-			{
-				items.Add(i);
-			}
-
-			return items.Count;
+			items.Add(i);
 		}
 
-		[Benchmark(Baseline = true)]
-		public int CreateWithCapacity()
+		return items.Count;
+	}
+
+	[Benchmark(Baseline = true)]
+	public int CreateWithCapacity()
+	{
+		var items = new List<int>(this.Count);
+
+		for (var i = 0; i < this.Count; i++)
 		{
-			var items = new List<int>(this.Count);
-
-			for (var i = 0; i < this.Count; i++)
-			{
-				items.Add(i);
-			}
-
-			return items.Count;
+			items.Add(i);
 		}
+
+		return items.Count;
 	}
 }

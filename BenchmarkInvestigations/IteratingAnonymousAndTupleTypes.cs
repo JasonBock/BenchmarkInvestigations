@@ -1,17 +1,17 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace BenchmarkInvestigations
-{
-   [MemoryDiagnoser]
-	public class IteratingAnonymousAndTupleTypes
-	{
-		[Benchmark]
-		public int IterateOverAnonymousTypes()
-		{
-			var length = 0;
+namespace BenchmarkInvestigations;
 
-			var friends = new[]
-			{
+[MemoryDiagnoser]
+public class IteratingAnonymousAndTupleTypes
+{
+	[Benchmark]
+	public int IterateOverAnonymousTypes()
+	{
+		var length = 0;
+
+		var friends = new[]
+		{
 				new
 				{
 					name = "Bruce Wayne",
@@ -32,21 +32,21 @@ namespace BenchmarkInvestigations
 				}
 			};
 
-			foreach (var friend in friends)
-			{
-				length += $"{friend.name} ({friend.nickname}) likes {string.Join(", ", friend.hobbies)}.".Length;
-			}
-
-			return length;
+		foreach (var friend in friends)
+		{
+			length += $"{friend.name} ({friend.nickname}) likes {string.Join(", ", friend.hobbies)}.".Length;
 		}
 
-		[Benchmark(Baseline = true)]
-		public int IterateOverTupleTypes()
-		{
-			var length = 0;
+		return length;
+	}
 
-			var friends = new[]
-			{
+	[Benchmark(Baseline = true)]
+	public int IterateOverTupleTypes()
+	{
+		var length = 0;
+
+		var friends = new[]
+		{
 				(
 					"Bruce Wayne",
 					"Batman",
@@ -64,12 +64,11 @@ namespace BenchmarkInvestigations
 				)
 			};
 
-			foreach (var (name, nickname, hobbies) in friends)
-			{
-				length += $"{name} ({nickname}) likes {string.Join(", ", hobbies)}.".Length;
-			}
-
-			return length;
+		foreach (var (name, nickname, hobbies) in friends)
+		{
+			length += $"{name} ({nickname}) likes {string.Join(", ", hobbies)}.".Length;
 		}
+
+		return length;
 	}
 }
