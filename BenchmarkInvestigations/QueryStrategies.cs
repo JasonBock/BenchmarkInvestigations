@@ -1,11 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System.Collections.Generic;
-using System;
 using BenchmarkInvestigations.SupportingTypes;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class QueryStrategies
 	{
 		private const int Children = 1000;

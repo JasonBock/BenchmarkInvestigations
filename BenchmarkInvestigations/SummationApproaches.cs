@@ -1,10 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class SummationApproaches
 	{
 		[Benchmark]

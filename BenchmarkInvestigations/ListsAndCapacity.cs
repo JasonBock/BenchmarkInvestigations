@@ -1,9 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System.Collections.Generic;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class ListsAndCapacity
 	{
 		[Params(5, 10, 50, 100, 500, 1000, 5000)]

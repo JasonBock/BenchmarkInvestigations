@@ -1,4 +1,3 @@
-﻿namespace BenchmarkInvestigations.SupportingTypes
-{
-	public class ServiceData { }
-}
+﻿namespace BenchmarkInvestigations.SupportingTypes;
+
+public class ServiceData { }

@@ -1,9 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System.Collections.Generic;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class RunOverflowingCode
 	{
 		public IEnumerable<object[]> Values()

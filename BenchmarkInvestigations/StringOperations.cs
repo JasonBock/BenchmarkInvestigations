@@ -1,12 +1,11 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System.Text;
-using System;
 
 #nullable disable
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class StringOperations
 	{
 		private string data;

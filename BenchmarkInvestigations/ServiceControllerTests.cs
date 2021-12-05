@@ -1,11 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkInvestigations.SupportingTypes;
-using System;
-using System.Threading.Tasks;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class ServiceControllerTests
 	{
 		private readonly string value = Guid.NewGuid().ToString();
@@ -13,10 +11,10 @@ namespace BenchmarkInvestigations
 
 		[Benchmark]
 		public async Task<ServiceData?> GetData() => 
-			await this.controller.GetAsync(this.value);
+			await this.controller.GetAsync(this.value).ConfigureAwait(false);
 
 		[Benchmark(Baseline = true)]
 		public async Task<ServiceData?> BetterGetData() =>
-			await this.controller.BetterGetAsync(this.value);
+			await this.controller.BetterGetAsync(this.value).ConfigureAwait(false);
 	}
 }

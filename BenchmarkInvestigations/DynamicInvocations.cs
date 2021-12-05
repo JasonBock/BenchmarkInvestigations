@@ -1,27 +1,26 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace BenchmarkInvestigations
+namespace BenchmarkInvestigations;
+
+[MemoryDiagnoser]
+public class DynamicInvocations
 {
-	[MemoryDiagnoser]
-	public class DynamicInvocations
+	[Benchmark(Baseline = true)]
+	public int ReturnValueViaDirectCall()
 	{
-		[Benchmark(Baseline = true)]
-		public int ReturnValueViaDirectCall()
-		{
-			var generator = new NumberGenerator();
-			return generator.ReturnValue(2);
-		}
-
-		[Benchmark]
-		public int ReturnValueViaDynamic()
-		{
-			dynamic generator = new NumberGenerator();
-			return generator.ReturnValue(2);
-		}
+		var generator = new NumberGenerator();
+		return generator.ReturnValue(2);
 	}
 
-	public class NumberGenerator
+	[Benchmark]
+	public int ReturnValueViaDynamic()
 	{
-		public int ReturnValue(int x) => x++;
+		dynamic generator = new NumberGenerator();
+		return generator.ReturnValue(2);
 	}
+}
+
+public class NumberGenerator
+{
+	public int ReturnValue(int x) => x++;
 }

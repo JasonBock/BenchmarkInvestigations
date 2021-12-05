@@ -1,11 +1,10 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkInvestigations.SupportingTypes;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class FibonacciApproaches
 	{
 		[Benchmark]

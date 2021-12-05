@@ -1,9 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System;
 
 namespace BenchmarkInvestigations
 {
-	[MemoryDiagnoser]
+   [MemoryDiagnoser]
 	public class IteratingAnonymousAndTupleTypes
 	{
 		[Benchmark]

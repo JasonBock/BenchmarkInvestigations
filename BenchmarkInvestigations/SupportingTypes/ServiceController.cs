@@ -1,40 +1,36 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace BenchmarkInvestigations.SupportingTypes;
 
-namespace BenchmarkInvestigations.SupportingTypes
+public class ServiceController
 {
-	public class ServiceController
+	private readonly Service service;
+
+	public ServiceController(Service service) =>
+		this.service = service ?? throw new ArgumentNullException(nameof(service));
+
+	public async Task<ServiceData?> GetAsync(string dataId)
 	{
-		private readonly Service service;
-
-		public ServiceController(Service service) => 
-			this.service = service ?? throw new ArgumentNullException(nameof(service));
-
-		public async Task<ServiceData?> GetAsync(string dataId)
+		if (string.IsNullOrEmpty(dataId))
 		{
-			if (string.IsNullOrEmpty(dataId))
-			{
-				return null;
-			}
-
-			if (await this.service.TryParseGuid(dataId))
-			{
-				// This was an async call, ignored that.
-				dataId = this.service.GetDataName(Guid.Parse(dataId)) ?? dataId;
-			}
-
-			return await this.service.GetData(dataId);
+			return null;
 		}
 
-		public async Task<ServiceData> BetterGetAsync(string dataId)
+		if (await this.service.TryParseGuid(dataId).ConfigureAwait(false))
 		{
-			if(Guid.TryParse(dataId, out var id))
-			{
-				// This was an async call, ignored that.
-				dataId = this.service.GetDataName(id) ?? dataId;
-			}
-
-			return await this.service.GetData(dataId);
+			// This was an async call, ignored that.
+			dataId = this.service.GetDataName(Guid.Parse(dataId)) ?? dataId;
 		}
+
+		return await this.service.GetData(dataId).ConfigureAwait(false);
+	}
+
+	public async Task<ServiceData> BetterGetAsync(string dataId)
+	{
+		if (Guid.TryParse(dataId, out var id))
+		{
+			// This was an async call, ignored that.
+			dataId = this.service.GetDataName(id) ?? dataId;
+		}
+
+		return await this.service.GetData(dataId).ConfigureAwait(false);
 	}
 }

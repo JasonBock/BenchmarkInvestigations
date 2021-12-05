@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using System.Collections.Generic;
 
 namespace BenchmarkInvestigations
 {
@@ -16,8 +15,8 @@ namespace BenchmarkInvestigations
 
 		[Benchmark]
 		[ArgumentsSource(nameof(NegatingNumbers.GetValues))]
-		public int NegateWithString(int value) => value > 0 ? int.Parse("-" + value.ToString()) : 
-			value < 0 ? int.Parse(value.ToString().Substring(1)) : 0;
+		public int NegateWithString(int value) => value > 0 ? int.Parse("-" + value.ToString()) :
+			value < 0 ? int.Parse(value.ToString()[1..]) : 0;
 
 		public IEnumerable<int> GetValues()
 		{

@@ -1,32 +1,28 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace BenchmarkInvestigations.SupportingTypes;
 
-namespace BenchmarkInvestigations.SupportingTypes
+public class GuidParser
 {
-	public class GuidParser
+	public async Task<bool> TryParseGuid(string value)
 	{
-		public async Task<bool> TryParseGuid(string value)
+		if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
 		{
-			if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
-			{
-				return false;
-			}
+			return false;
+		}
 
-			try
+		try
+		{
+			if (Guid.TryParse(value, out var guid))
 			{
-				if(Guid.TryParse(value, out var guid))
-				{
-					return await Task.Run(() => true);
-				}
-				else
-				{
-					return await Task.Run(() => false);
-				}
+				return await Task.Run(() => true).ConfigureAwait(false);
 			}
-			catch(Exception)
+			else
 			{
-				return false;
+				return await Task.Run(() => false).ConfigureAwait(false);
 			}
+		}
+		catch (Exception)
+		{
+			return false;
 		}
 	}
 }

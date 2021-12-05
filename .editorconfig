@@ -31,11 +31,17 @@ dotnet_style_qualification_for_field = true:error
 dotnet_style_qualification_for_method = true:error
 dotnet_style_qualification_for_property = true:error
 
+# CA1014: CLSCompliant
+dotnet_diagnostic.CA1014.severity = none
+
 # CA1030: Use events where appropriate
 dotnet_diagnostic.CA1030.severity = none
 
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity = none
+
+# CA1822: Member does not access instance data
+dotnet_diagnostic.CA1822.severity = none
 
 # RS1024: Compare symbols correctly
 # Once https://github.com/dotnet/roslyn-analyzers/issues/4414 is addressed, this should be removed

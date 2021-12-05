@@ -1,18 +1,16 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkInvestigations.SupportingTypes;
-using System;
 
-namespace BenchmarkInvestigations
+namespace BenchmarkInvestigations;
+
+[MemoryDiagnoser]
+public class RunConstruction
 {
-	[MemoryDiagnoser]
-	public class RunConstruction
-	{
-		[Benchmark]
-		public IPerson CreateViaSetters() =>
-			new PersonViaSetters(Guid.NewGuid(), "Jason", 22);
+	[Benchmark]
+	public IPerson CreateViaSetters() =>
+		new PersonViaSetters(Guid.NewGuid(), "Jason", 22);
 
-		[Benchmark(Baseline = true)]
-		public IPerson CreateViaTuple() =>
-			new PersonViaTuple(Guid.NewGuid(), "Jason", 22);
-	}
+	[Benchmark(Baseline = true)]
+	public IPerson CreateViaTuple() =>
+		new PersonViaTuple(Guid.NewGuid(), "Jason", 22);
 }

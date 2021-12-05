@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace BenchmarkInvestigations.SupportingTypes;
 
-namespace BenchmarkInvestigations.SupportingTypes
+public interface IPerson
 {
-	public interface IPerson
-	{
-		Guid Id { get; }
-		string Name { get; }
-		uint Age { get; }
-	}
+	Guid Id { get; }
+	string Name { get; }
+	uint Age { get; }
 }
