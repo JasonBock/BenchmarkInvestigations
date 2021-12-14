@@ -13,3 +13,4 @@ public sealed class PersonViaSetters
 	public Guid Id { get; }
 	public string Name { get; }
 	public uint Age { get; }
+}

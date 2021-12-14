@@ -150,6 +150,17 @@ ZeroMeasurement
 ```
 Conclusion - Don't use `dynamic` unless absolutely necessary.
 
+## `ExtensionMethodApproaches`
+
+```
+|                         Method |     Mean |     Error |    StdDev | Ratio | RatioSD | Allocated |
+|------------------------------- |---------:|----------:|----------:|------:|--------:|----------:|
+| GetAgeWithExtensionDeconstruct | 2.697 ns | 0.0429 ns | 0.0381 ns |  0.88 |    0.02 |         - |
+|  GetAgeWithInstanceDeconstruct | 3.060 ns | 0.0320 ns | 0.0284 ns |  1.00 |    0.00 |         - |
+```
+
+Conclusion - I've run this a few times, and which one is "better" will change, though the difference is very small. It doesn't seem to mattter much which approach you take. I was debating for my [AutoDeconstruct](https://github.com/JasonBock/autodeconstruct) to potentially try to make the generated `Deconstruct` method an instance method on a partial type, but that flexibility isn't needed.
+
 ## `FibonacciApproaches`
 
 ```
