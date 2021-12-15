@@ -218,6 +218,20 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
 
 Conclusion - Use what's built-in to .NET.
 
+## `HashCodeTechniques`
+
+```
+|                              Method |      Mean |    Error |   StdDev | Ratio | RatioSD |  Gen 0 | Allocated |
+|------------------------------------ |----------:|---------:|---------:|------:|--------:|-------:|----------:|
+|      GetHashCodeFromHashCodeCombine |  22.87 ns | 0.443 ns | 0.414 ns |  1.00 |    0.00 |      - |         - |
+|        GetHashCodeFromTupleHashCode |  35.91 ns | 0.643 ns | 0.601 ns |  1.57 |    0.05 |      - |         - |
+|                  GetHashCodeFromXOR |  17.66 ns | 0.146 ns | 0.136 ns |  0.77 |    0.01 |      - |         - |
+|     GetHashCodeFromPrimeNumberUsage | 479.20 ns | 3.087 ns | 2.737 ns | 20.97 |    0.33 | 0.0153 |      64 B |
+| GetHashCodeFromRecordImplementation |  22.39 ns | 0.130 ns | 0.122 ns |  0.98 |    0.02 |      - |         - |
+```
+
+Conclusion - This was from [an article](https://medium.com/rocket-mortgage-technology-blog/whats-in-a-hash-code-cf21c6f0b57c) I wrote on hash codes. I couldn't find the source code for the benchmark tests I wrote, so I redid them here. As you can see, using `HashCode.Combine()` has good performance and is a one-liner, so it's simple to use..
+
 ## `IteratingAnonymousAndTupleTypes`
 
 ```
