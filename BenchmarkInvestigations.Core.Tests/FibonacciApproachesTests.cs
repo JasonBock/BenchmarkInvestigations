@@ -6,16 +6,20 @@ namespace BenchmarkInvestigations.Core.Tests;
 public static class FibonacciApproachesTests
 {
 	[TestCaseSource(nameof(FibonacciApproachesTests.StartingValues))]
-	public static void CalculateUsingList(BigInteger value) =>
-		Assert.That(new FibonacciApproaches().CalculateUsingList(value), Is.GreaterThan(BigInteger.Zero));
+	public static void Calculate(BigInteger value)
+	{
+		var approaches = new FibonacciApproaches();
+		var listResult = approaches.CalculateUsingList(value);
+		var recursiveResult = approaches.CalculateUsingRecursive(value);
+		var localsResult = approaches.CalculateUsingLocals(value);
 
-	[TestCaseSource(nameof(FibonacciApproachesTests.StartingValues))]
-	public static void CalculateUsingRecursive(BigInteger value) =>
-		Assert.That(new FibonacciApproaches().CalculateUsingRecursive(value), Is.GreaterThan(BigInteger.Zero));
-
-	[TestCaseSource(nameof(FibonacciApproachesTests.StartingValues))]
-	public static void CalculateUsingLocals(BigInteger value) =>
-		Assert.That(new FibonacciApproaches().CalculateUsingLocals(value), Is.GreaterThan(BigInteger.Zero));
+		Assert.Multiple(() =>
+		{
+			Assert.That(listResult, Is.GreaterThan(BigInteger.Zero));
+			Assert.That(listResult, Is.EqualTo(recursiveResult));
+			Assert.That(listResult, Is.EqualTo(localsResult));
+		});
+	}
 
 	public static IEnumerable<BigInteger> StartingValues()
 	{
