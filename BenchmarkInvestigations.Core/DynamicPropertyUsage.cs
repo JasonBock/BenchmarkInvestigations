@@ -6,7 +6,7 @@ namespace BenchmarkInvestigations.Core;
 public class DynamicPropertyUsage
 {
 	private static readonly Data data = new() { Value = 10 };
-	private static readonly int random = new Random().Next(1000);
+	private static readonly int random = new Random().Next(10, 1000);
 
 	[Benchmark]
 	public int CallDynamic() => DynamicPropertyUsage.GetValueViaDynamic(DynamicPropertyUsage.data);
