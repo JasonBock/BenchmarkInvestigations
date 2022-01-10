@@ -3,7 +3,6 @@
 		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.0.1" />
+	  <ProjectReference Include="..\BenchmarkInvestigations.Core\BenchmarkInvestigations.Core.csproj" />
 	</ItemGroup>
 </Project>

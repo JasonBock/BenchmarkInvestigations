@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
-using BenchmarkInvestigations;
+using BenchmarkInvestigations.Core;
 
-BenchmarkRunner.Run<HashCodeTechniques>();
+BenchmarkRunner.Run<RunConstruction>();
