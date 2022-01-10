@@ -22,5 +22,5 @@ public class DynamicInvocations
 
 public class NumberGenerator
 {
-	public int ReturnValue(int x) => x++;
+	public int ReturnValue(int x) => ++x;
 }
