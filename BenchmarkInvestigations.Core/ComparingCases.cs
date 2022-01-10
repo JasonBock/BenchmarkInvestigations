@@ -6,7 +6,7 @@ namespace BenchmarkInvestigations.Core;
 [MemoryDiagnoser]
 public class ComparingCases
 {
-	private readonly static Log log = new Log(true, false, false, true, true);
+	private readonly static Log log = new(true, false, false, true, true);
 	private readonly static IDictionary<LogLevel, Func<Log, bool>> isEnabledFunctions =
 		new Dictionary<LogLevel, Func<Log, bool>>()
 		{

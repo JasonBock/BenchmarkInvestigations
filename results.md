@@ -30,20 +30,23 @@ Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
   DefaultJob : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
 
 
-|                                       Method |        Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|--------------------------------------------- |------------:|----------:|----------:|-------:|------:|------:|----------:|
-|           FindMethodCountWith5UsingIsDefined |  2,693.9 ns |  62.34 ns | 180.87 ns | 0.1068 |     - |     - |     448 B |
-|  FindMethodCountWith5UsingGetCustomAttribute |  6,886.4 ns |  86.23 ns |  80.66 ns | 0.2518 |     - |     - |    1064 B |
-|       FindMethodCountWith5UsingWellKnownName |    292.1 ns |   5.30 ns |   7.93 ns | 0.0610 |     - |     - |     256 B |
-|          FindMethodCountWith10UsingIsDefined |  3,627.6 ns |  55.71 ns |  49.39 ns | 0.1259 |     - |     - |     528 B |
-| FindMethodCountWith10UsingGetCustomAttribute | 10,247.8 ns | 203.05 ns | 189.93 ns | 0.3510 |     - |     - |    1504 B |
-|      FindMethodCountWith10UsingWellKnownName |    418.8 ns |   7.96 ns |   8.52 ns | 0.0801 |     - |     - |     336 B |
-|          FindMethodCountWith20UsingIsDefined |  5,067.4 ns |  52.91 ns |  44.18 ns | 0.1602 |     - |     - |     688 B |
-| FindMethodCountWith20UsingGetCustomAttribute | 18,150.3 ns | 355.99 ns | 499.04 ns | 0.5493 |     - |     - |    2384 B |
-|      FindMethodCountWith20UsingWellKnownName |    649.1 ns |  12.37 ns |  24.99 ns | 0.1183 |     - |     - |     496 B |
-|          FindMethodCountWith50UsingIsDefined |  9,971.9 ns |  93.95 ns |  78.45 ns | 0.2747 |     - |     - |    1168 B |
-| FindMethodCountWith50UsingGetCustomAttribute | 36,255.5 ns | 717.40 ns | 635.96 ns | 1.1597 |     - |     - |    5025 B |
-|      FindMethodCountWith50UsingWellKnownName |  1,303.5 ns |  19.12 ns |  17.89 ns | 0.2327 |     - |     - |     976 B |
+|                                       Method | Categories |        Mean |     Error |      StdDev |  Gen 0 | Allocated |
+|--------------------------------------------- |----------- |------------:|----------:|------------:|-------:|----------:|
+|           FindMethodCountWith5UsingIsDefined |          5 |  2,756.8 ns |  58.66 ns |   169.26 ns | 0.0610 |     256 B |
+|  FindMethodCountWith5UsingGetCustomAttribute |          5 |  6,684.7 ns | 131.99 ns |   254.30 ns | 0.2594 |   1,088 B |
+|       FindMethodCountWith5UsingWellKnownName |          5 |    285.8 ns |   5.72 ns |     8.91 ns | 0.0610 |     256 B |
+|                                              |            |             |           |             |        |           |
+|          FindMethodCountWith10UsingIsDefined |         10 |  3,847.9 ns |  76.89 ns |   210.49 ns | 0.0801 |     336 B |
+| FindMethodCountWith10UsingGetCustomAttribute |         10 |  9,751.0 ns | 193.87 ns |   404.67 ns | 0.3510 |   1,528 B |
+|      FindMethodCountWith10UsingWellKnownName |         10 |    449.0 ns |   9.04 ns |    17.84 ns | 0.0801 |     336 B |
+|                                              |            |             |           |             |        |           |
+|          FindMethodCountWith20UsingIsDefined |         20 |  5,481.7 ns | 109.27 ns |   235.22 ns | 0.1144 |     496 B |
+| FindMethodCountWith20UsingGetCustomAttribute |         20 | 15,638.3 ns | 305.29 ns |   437.84 ns | 0.5493 |   2,408 B |
+|      FindMethodCountWith20UsingWellKnownName |         20 |    610.4 ns |  10.82 ns |     9.59 ns | 0.1183 |     496 B |
+|                                              |            |             |           |             |        |           |
+|          FindMethodCountWith50UsingIsDefined |         50 | 10,570.4 ns | 210.07 ns |   619.39 ns | 0.2289 |     976 B |
+| FindMethodCountWith50UsingGetCustomAttribute |         50 | 34,998.9 ns | 692.88 ns | 1,446.29 ns | 1.1597 |   5,049 B |
+|      FindMethodCountWith50UsingWellKnownName |         50 |  1,324.4 ns |  19.77 ns |    17.53 ns | 0.2327 |     976 B |
 ```
 
 Conclusion - It is quicker and uses less memory to look up a method if it uses a well-known name. However, the advantage an attribute has is that it provides a bit of naming flexibility.
