@@ -26,7 +26,7 @@ public class AttributeLookup
 			.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
 			.Where(_ => _.GetCustomAttribute<FetchAttribute>() != null).Count();
 
-	[Benchmark]
+	[Benchmark(Baseline = true)]
 	[BenchmarkCategory("5")]
 	public int FindMethodCountWith5UsingWellKnownName() =>
 		typeof(ClassWith5MethodsAndWellKnownName)
@@ -47,7 +47,7 @@ public class AttributeLookup
 			.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
 			.Where(_ => _.GetCustomAttribute<FetchAttribute>() != null).Count();
 
-	[Benchmark]
+	[Benchmark(Baseline = true)]
 	[BenchmarkCategory("10")]
 	public int FindMethodCountWith10UsingWellKnownName() =>
 		typeof(ClassWith10MethodsAndWellKnownName)
@@ -68,7 +68,7 @@ public class AttributeLookup
 			.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
 			.Where(_ => _.GetCustomAttribute<FetchAttribute>() != null).Count();
 
-	[Benchmark]
+	[Benchmark(Baseline = true)]
 	[BenchmarkCategory("20")]
 	public int FindMethodCountWith20UsingWellKnownName() =>
 		typeof(ClassWith20MethodsAndWellKnownName)
@@ -89,7 +89,7 @@ public class AttributeLookup
 			.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
 			.Where(_ => _.GetCustomAttribute<FetchAttribute>() != null).Count();
 
-	[Benchmark]
+	[Benchmark(Baseline = true)]
 	[BenchmarkCategory("50")]
 	public int FindMethodCountWith50UsingWellKnownName() =>
 		typeof(ClassWith50MethodsAndWellKnownName)

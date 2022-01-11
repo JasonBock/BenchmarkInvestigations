@@ -4,7 +4,7 @@ using BenchmarkInvestigations.Core.SupportingTypes;
 namespace BenchmarkInvestigations.Core;
 
 [MemoryDiagnoser]
-public class RunConstruction
+public class SettingPropertiesInConstructor
 {
 	[Benchmark]
 	public IPerson CreateViaSetters() =>

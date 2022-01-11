@@ -22,7 +22,7 @@ public class ComparingCases
 	public bool IsEnabledUsingDictionary() =>
 		ComparingCases.isEnabledFunctions[this.Level](ComparingCases.log);
 
-	[Benchmark]
+	[Benchmark(Baseline = true)]
 	public bool IsEnabledUsingSwitch()
 	{
 		switch (this.Level)
@@ -42,6 +42,18 @@ public class ComparingCases
 				throw new InvalidEnumArgumentException();
 		}
 	}
+
+	[Benchmark]
+	public bool IsEnabledUsingSwitchExpression() => 
+		this.Level switch
+		{
+			LogLevel.Trace or LogLevel.Debug => ComparingCases.log.IsDebugEnabled,
+			LogLevel.Warning => ComparingCases.log.IsWarnEnabled,
+			LogLevel.Error => ComparingCases.log.IsErrorEnabled,
+			LogLevel.Information => ComparingCases.log.IsInfoEnabled,
+			LogLevel.Critical => ComparingCases.log.IsFatalEnabled,
+			_ => throw new InvalidEnumArgumentException(),
+		};
 
 	[Benchmark]
 	public bool IsEnabledUsingIf()

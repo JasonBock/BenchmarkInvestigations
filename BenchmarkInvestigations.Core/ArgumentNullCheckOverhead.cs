@@ -12,6 +12,10 @@ public class ArgumentNullCheckOverhead
 		new(this.value);
 
 	[Benchmark]
+	public WithNullCheckUsingThrowIfNull PassToNullCheckUsingThrowIfNull() =>
+		new(this.value);
+
+	[Benchmark]
 	public WithoutNullCheck PassWithoutNullCheck() =>
 		new(this.value);
 }
@@ -24,6 +28,17 @@ public class WithNullCheck
 
 	public WithNullCheck(MightBeNull might) =>
 		this.might = might ?? throw new ArgumentNullException(nameof(might));
+}
+
+public class WithNullCheckUsingThrowIfNull
+{
+	private readonly MightBeNull might;
+
+	public WithNullCheckUsingThrowIfNull(MightBeNull might)
+	{
+		ArgumentNullException.ThrowIfNull(might);
+		this.might = might;
+	}
 }
 
 public class WithoutNullCheck

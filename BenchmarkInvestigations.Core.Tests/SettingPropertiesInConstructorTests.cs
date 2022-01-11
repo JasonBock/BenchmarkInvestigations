@@ -2,12 +2,12 @@
 
 namespace BenchmarkInvestigations.Core.Tests;
 
-public static class RunConstructionTests
+public static class SettingPropertiesInConstructorTests
 {
 	[Test]
 	public static void CreateViaSetters()
 	{
-		var person = new RunConstruction().CreateViaSetters();
+		var person = new SettingPropertiesInConstructor().CreateViaSetters();
 		Assert.Multiple(() =>
 		{
 			Assert.That(person.Id, Is.Not.EqualTo(Guid.Empty));
@@ -19,7 +19,7 @@ public static class RunConstructionTests
 	[Test]
 	public static void CreateViaTuple()
 	{
-		var person = new RunConstruction().CreateViaTuple();
+		var person = new SettingPropertiesInConstructor().CreateViaTuple();
 		Assert.Multiple(() =>
 		{
 			Assert.That(person.Id, Is.Not.EqualTo(Guid.Empty));
