@@ -14,6 +14,7 @@ public static class FormattingGuidsTests
 		Assert.Multiple(() =>
 		{
 			Assert.That(formatResult, Is.Not.Null);
+			Assert.That(() => Guid.ParseExact(formatResult, "N"), Throws.Nothing);
 			Assert.That(formatResult, Is.EqualTo(replaceResult));
 		});
 	}

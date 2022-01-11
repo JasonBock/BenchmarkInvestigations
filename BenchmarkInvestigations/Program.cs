@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using BenchmarkInvestigations.Core;
 
-BenchmarkRunner.Run<AttributeLookup>();
+BenchmarkRunner.Run<ComparingCases>();
